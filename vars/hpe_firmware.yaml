@@ -1,0 +1,32 @@
+---
+hpe_download_server: https://downloads.linux.hpe.com
+hpe_download_path: SDR/repo/spp-gen10/2024.09.00.00/packages
+hpe_spp_firmware:
+  - name: Ilo
+    rpm: firmware-ilo5-3.09-1.1.x86_64.rpm
+  - name: PowerPIC
+    rpm: firmware-powerpic-gen10-1.1.4-3.1.x86_64.rpm
+  - name: SmartArray
+    rpm: firmware-smartarray-f7c07bdbbd-7.11-1.1.x86_64.rpm
+  - name: IE
+    rpm: firmware-iegen10-0.2.3.0-5.1.x86_64.rpm
+  - name: SPS
+    rpm: firmware-spsgen10-04.01.05.002-2.1.x86_64.rpm
+  - name: BIOS
+    rpm: firmware-system-u32-3.30_2024_07_31-1.1.x86_64.rpm
+  - name: IntelNIC
+    rpm: firmware-nic-is-intel-1.31.0-1.1.x86_64.rpm
+  - name: BroadNIC
+    rpm: firmware-nic-bcm-2.38.0-1.1.x86_64.rpm
+
+# 
+# NVM Download: 
+#   - update-utility-for-intel-ethernet-adapters-700-series-linux.html
+intel_firmware:
+  - name: XXV710
+#    url: https://www.intel.com/content/www/us/en/download/18635/812374/non-volatile-memory-nvm-update-utility-for-intel-ethernet-adapters-700-series-linux.html#:~:text=700Series_NVMUpdatePackage_v9_40_Linux.tar.gz
+#    rpm: 700Series_NVMUpdatePackage_v9_40_Linux.tar
+mellanox_firmware:
+  - name: MLXC5
+#    url:
+    rpm: firmware-nic-mellanox-641sfp28-private-16.35.3502-1.1.x86_64.rpm

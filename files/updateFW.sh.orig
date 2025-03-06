@@ -1,0 +1,206 @@
+#!/bin/bash
+
+if ! [[ "$(id -u)" == "0" ]]
+then
+  echo "This container must run as root user"
+  exit 1
+fi
+
+function updIlo() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update ilo5 firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-ilo5-3.08-1.1/hpsetup -f -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log 
+  else   
+    echo ""
+    echo "###########################################"
+    echo "Update ilo5 firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-ilo5-3.08-1.1/hpsetup -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updPowerPIC() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update PowerPIC firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-powerpic-gen10-1.1.4-3.1/hpsetup -f -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update PowerPIC firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-powerpic-gen10-1.1.4-3.1/hpsetup -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updSmartArray() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update SmartArray firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-smartarray-f7c07bdbbd-7.11-1.1/hpsetup -f -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update SmartArray firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-smartarray-f7c07bdbbd-7.11-1.1/hpsetup -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updIE() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update Innovation Engine firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-iegen10-0.2.3.0-5.1/hpsetup -f -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update Innovation Engine firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-iegen10-0.2.3.0-5.1/hpsetup -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updSPS() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update SPS firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-spsgen10-04.01.04.505-1.1/hpsetup -f -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update SPS firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-spsgen10-04.01.04.505-1.1/hpsetup -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updBIOS() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update BIOS firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-system-u32-3.30_2024_07_31-1.1/hpsetup -f -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update BIOS firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-system-u32-3.30_2024_07_31-1.1/hpsetup -s --tpmbypass
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updIntelNIC() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update Intel NIC firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-nic-intel-1.31.0-1.1/setup -f -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update Intel NIC firmware"
+    echo "###########################################"
+    /usr/lib/x86_64-linux-gnu/firmware-nic-intel-1.31.0-1.1/setup -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updBroadNIC() {
+  if [[ $FORCE_UPDATE == true ]];then
+    echo ""
+    echo "###########################################"
+    echo "FORCE Update Broadcom NIC firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-nic-bcm-2.38.0-1.1/hpsetup -f -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  else
+    echo ""
+    echo "###########################################"
+    echo "Update Broadcom NIC firmware"
+    echo "###########################################"
+    echo ""
+    /usr/lib/x86_64-linux-gnu/firmware-nic-bcm-2.38.0-1.1/hpsetup -s
+    cat /var/cpq/Component.log; rm -f /var/cpq/Component.log
+  fi
+}
+
+function updXXV710NIC() {
+  echo ""
+  echo "###########################################"
+  echo "Update Intel XXV710 firmware"
+  echo "###########################################"
+  echo "Note: this firmware installer runs unconditionally and takes no action if the firmware is already up-to-date."
+  cd /opt/hpefwupdate/700Series/
+  /opt/hpefwupdate/700Series/nvmupdate64e -u -l -c /opt/hpefwupdate/700Series/nvmupdate.cfg
+}
+
+
+### MAIN ###
+echo "Start firmware updates."
+rm -f /var/cpq/Component.log
+if [[ $COMPONENT == "ilo" ]];then
+  updIlo
+elif [[ $COMPONENT == "powerPIC" ]];then
+  updPowerPIC
+elif [[ $COMPONENT == "smartArray" ]];then
+  updSmartArray
+elif [[ $COMPONENT == "innovationEngine" ]];then
+  updIE
+elif [[ $COMPONENT == "sps" ]];then
+  updSPS
+elif [[ $COMPONENT == "bios" ]];then
+  updBIOS
+elif [[ $COMPONENT == "nic" ]];then
+  updIntelNIC
+  updBroadNIC
+  updXXV710NIC
+else
+  updIlo
+  updPowerPIC
+  updSmartArray
+  updIE
+  updSPS
+  updBIOS
+  updIntelNIC
+  updBroadNIC
+  updXXV710NIC
+fi
+echo
+echo "Done running firmware updates."
+exit 0

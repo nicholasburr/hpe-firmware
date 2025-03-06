@@ -1,0 +1,3 @@
+---
+containerfile_from: registry.access.redhat.com/ubi8
+webscale_firmware_version: 1.6.4-rc1

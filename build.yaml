@@ -1,0 +1,36 @@
+---
+- name: Configure the repository and build the firmware container.
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  vars_files:
+    - vars/main.yaml
+    - vars/hpe_firmware.yaml
+  pre_tasks:
+#    - name: Download the HPE firmware.
+#      ansible.builtin.get_url:
+#        url: "{{ hpe_download_server}}/{{ hpe_download_path }}/{{ item.rpm }}"
+#        dest: "tmp/{{ item.rpm }}"
+#      loop: "{{ hpe_spp_firmware }}"
+
+    - name: Create the Containerfile.
+      ansible.builtin.template:
+        src: Containerfile.j2
+        dest: Containerfile
+
+    - name: Create the updateFW.sh.
+      ansible.builtin.template:
+        src: updateFW.sh.j2
+        dest: files/updateFW.sh
+
+    - name: Build the Container(s).
+      containers.podman.podman_image:
+        name: hpe-firmware
+        path: ./
+        build:
+          cache: no
+          force_rm: true
+          annotation:
+            function: 'fireware updates'
+            info: Contains firmware to upgrade Baremetal servers.

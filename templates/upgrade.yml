@@ -1,0 +1,5 @@
+---
+- name: Upgrade firmware for HPE systems running Openshift 4.
+  hosts: localhost
+  connection: local
+  tasks:

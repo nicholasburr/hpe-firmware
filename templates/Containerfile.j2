@@ -1,0 +1,21 @@
+FROM {{ containerfile_from }}
+
+{% for item in hpe_spp_firmware %}
+ADD tmp/{{ item.rpm }} /opt/rpms/
+{% endfor %}
+ADD tmp/700Series /opt/hpefwupdate/
+{% for item in mellanox_firmware %}
+ADD tmp/{{ item.rpm }} /opt/rpms/
+{% endfor %}
+
+RUN \
+  dnf -y install kmod pciutils which mokutil && \
+  dnf -y localinstall /opt/rpms/*.rpm && \
+  rm -rf /opt/rpms && \
+  dnf clean all && rm -rf /var/cache/dnf/*
+
+ADD files/updateFW.sh /opt/hpefwupdate/
+RUN chmod +x /opt/hpefwupdate/updateFW.sh
+
+ENTRYPOINT [ "/bin/bash", "/opt/hpefwupdate/updateFW.sh" ]
+USER 0:0
