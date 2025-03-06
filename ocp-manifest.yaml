@@ -2,19 +2,19 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: webscale-firmware
+  name: hpe-firmware
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: serviceaccount-fwupdate
-  namespace: webscale-firmware
+  namespace: hpe-firmware
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: rolebinding-firmware-update
-  namespace: webscale-firmware
+  namespace: hpe-firmware
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -22,18 +22,18 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: serviceaccount-fwupdate
-  namespace: webscale-firmware
+  namespace: hpe-firmware
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: firmware
-  namespace: webscale-firmware
+  namespace: hpe-firmware
 spec:
   serviceAccountName: serviceaccount-fwupdate
   hostNetwork: true
-  hostPID: true
-  hostIPC: true
+#  hostPID: true
+#  hostIPC: true
   restartPolicy: Never
   terminationGracePeriodSeconds: 10
   containers:
@@ -43,20 +43,20 @@ spec:
       securityContext:
         runAsUser: 0
         privileged: true
-        appArmorProfile: unconfined
-        seLinuxOptions:
-          type: spc_t
-  volumes:
-  - name: usb-devices
-    hostPath:
-      path: /dev/bus/usb
-  - name: modules
-    hostPath:
-      path: /lib/modules
-  volumeMounts:
-  - name: usb-devices
-    mountPath: /dev/bus/usb
-    readOnly: false
-  - mountPath: /lib/modules
-    name: modules
-    readOnly: false
+#        appArmorProfile: unconfined
+#        seLinuxOptions:
+#          type: spc_t
+#  volumes:
+#  - name: usb-devices
+#    hostPath:
+#      path: /dev/bus/usb
+#  - name: modules
+#    hostPath:
+#      path: /lib/modules
+#  volumeMounts:
+#  - name: usb-devices
+#    mountPath: /dev/bus/usb
+#    readOnly: false
+#  - mountPath: /lib/modules
+#    name: modules
+#    readOnly: false
