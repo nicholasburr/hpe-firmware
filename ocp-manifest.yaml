@@ -31,32 +31,29 @@ metadata:
   namespace: hpe-firmware
 spec:
   serviceAccountName: serviceaccount-fwupdate
+  hostIPC: true
   hostNetwork: true
-#  hostPID: true
-#  hostIPC: true
+  hostPID: true
   restartPolicy: Never
   terminationGracePeriodSeconds: 10
   containers:
     - name: firmware
       image:  quay.io/nburr/firmware:latest
-      #      command: ["/bin/bash", "-c", "tail -f /dev/null"]
+      command: ["/bin/bash", "-c", "tail -f /dev/null"]
       securityContext:
-        runAsUser: 0
         privileged: true
-#        appArmorProfile: unconfined
-#        seLinuxOptions:
-#          type: spc_t
-#  volumes:
-#  - name: usb-devices
-#    hostPath:
-#      path: /dev/bus/usb
-#  - name: modules
-#    hostPath:
-#      path: /lib/modules
-#  volumeMounts:
-#  - name: usb-devices
-#    mountPath: /dev/bus/usb
-#    readOnly: false
-#  - mountPath: /lib/modules
-#    name: modules
-#    readOnly: false
+        runAsUser: 0
+      volumeMounts:
+      - mountPath: /lib/modules
+        name: modules
+  volumeMounts:
+  - name: usb-devices
+    mountPath: /dev/bus/usb
+    readOnly: false
+  volumes:
+  - name: usb-devices
+    hostPath:
+      path: /dev/bus/usb
+  - name: modules
+    hostPath:
+      path: /lib/modules

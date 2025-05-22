@@ -1,0 +1,40 @@
+---
+- name: Find Latest Directory from HPE SDR
+  hosts: localhost
+
+  tasks:
+    - name: Fetch directory listing
+      uri:
+        url: "https://downloads.linux.hpe.com/SDR/repo/spp-gen10/"
+        return_content: yes
+      register: page_content
+
+    - name: Extract directories and timestamps
+      set_fact:
+        directories: >-
+          {{ page_content.content | regex_findall('href="([^"]+/)"') | list }}
+
+    - name: Find the latest item matching the pattern YYYY.MM.DD.*
+      set_fact:
+        latest_item: "{{ directories | select('match', '\\d{4}\\.\\d{2}\\.\\d{2}\\..*') | map('regex_replace', '^(\d{4}\.\d{2}\.\d{2})', '\\1') | sort(attribute='item', reverse=True) | first }}"
+    
+    - name: Debug extracted directories
+      debug:
+        var: directories
+      
+    - meta: end_play
+
+    - name: Fetch creation dates for directories
+      uri:
+        url: "https://downloads.linux.hpe.com/SDR/repo/spp-gen10/{{ item }}"
+        method: HEAD
+      loop: "{{ directories }}"
+      register: dir_dates
+
+    - name: Determine latest directory
+      set_fact:
+        latest_directory: "{{ dir_dates.results | sort(attribute='date', reverse=True) | first }}"
+
+    - name: Display latest directory
+      debug:
+        msg: "Latest directory: {{ latest_directory.item }}"
